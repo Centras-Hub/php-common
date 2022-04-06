@@ -2,6 +2,8 @@ stages:
   - deploy
 
 deploy:
+  only:
+    - tags
   stage: deploy
   script:
     - apk add curl
