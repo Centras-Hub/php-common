@@ -12,7 +12,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Centras\\PhpCommon\\": "src/"
+            "phpcommon\\http\\": "src/http-shell/",
+            "phpcommon\\http\\Messages\\": "src/http-shell/messages",
+            "phpcommon\\Middleware\\": "src/Middleware/",
+            "phpcommon\\Handler\\": "src/Handler/",
+            "phpcommon\\Utils\\": "src/Utils/"
         }
     }
 }
