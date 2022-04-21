@@ -25,13 +25,21 @@
     }
   }
 ```
-2. Выполните команду:
+2. Выполните команды:
 
 ```bash
+composer config gitlab-domains git.cic.kz
 composer config repositories.git.cic.kz/86 '{"type": "composer", "url": "https://git.cic.kz/api/v4/group/86/-/packages/composer/packages.json"}'
 ```
 
-После выполнения команды в файле `composer.json` должна появится запись:
+После выполнения команд в файле `composer.json` должны появится записи:
+  ```json
+    "config": {
+      ...
+      "gitlab-domains": ["git.cic.kz"]
+    }
+  ```
+
   ```json
     "repositories": [{
             "type" : "composer",
