@@ -14,27 +14,27 @@ stages:
 
 ##############################################################################
 
-phpunit-7.1:
+phpunit-php7.1:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-7.1
 
-phpunit-7.2:
+phpunit-php7.2:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-7.2
 
-phpunit-7.3:
+phpunit-php7.3:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-7.3
 
-phpunit-7.4:
+phpunit-php7.4:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-7.4
 
-phpunit-8.0:
+phpunit-php8.0:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-8.0
 
-phpunit-8.1:
+phpunit-php8.1:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-8.1
 
