@@ -24,9 +24,9 @@ stages:
   cache:
     - key:
         files:
-          - yarn.lock
+          - composer.lock
       paths:
-        - .yarn-cache/
+        - vendor/
 
 ##############################################################################
 
