@@ -19,6 +19,7 @@ class File
      */
     public static function download(string $uuid, $ignoreExceptions = false): string
     {
+        /////////////////////////////////////
         return '/file/' . $uuid . '/download';
     }
 
