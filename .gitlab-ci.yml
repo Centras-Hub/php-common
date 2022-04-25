@@ -8,6 +8,10 @@ stages:
   stage: linting
   tags:
     - docker
+
+  variables:
+    - XDEBUG_MODE=coverage
+  
   script:
     - composer install
     - phpunit --coverage-text --colors=never .
