@@ -6,6 +6,8 @@ stages:
 
 .phpunit:
   stage: linting
+  tags:
+    - docker
   script:
     - phpunit .
 
