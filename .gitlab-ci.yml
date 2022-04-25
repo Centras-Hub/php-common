@@ -14,7 +14,12 @@ stages:
   
   script:
     - composer install
-    - phpunit --coverage-text --colors=never .
+    - phpunit --coverage-text --colors=never  --log-junit report.xml .
+
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
 
 ##############################################################################
 
