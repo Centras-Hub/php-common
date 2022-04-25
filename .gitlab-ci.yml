@@ -14,12 +14,13 @@ stages:
   
   script:
     - composer install
-    - phpunit --coverage-text --colors=never  --log-junit report.xml .
+    - phpunit --coverage-text --colors=never  --log-junit report.xml  --coverage-cobertura=coverage.cobertura.xml .
 
   artifacts:
     when: always
     reports:
       junit: report.xml
+      cobertura: coverage.cobertura.xml
 
   cache:
     key:
