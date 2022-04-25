@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
-use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use phpcommon\Handler\Exceptions as CreatorsExceptions;
 use phpcommon\http\Messages;
 use phpcommon\http\ResponseMessagesDTO;
