@@ -1,11 +1,11 @@
 stages:
-  - linting
+  - testing
   - deploy
 
 ##############################################################################
 
 .phpunit:
-  stage: linting
+  stage: testing
   tags:
     - docker
 
