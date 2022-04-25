@@ -10,7 +10,7 @@ stages:
     - docker
   script:
     - composer install
-    - phpunit .
+    - phpunit --coverage-text --colors=never .
 
 ##############################################################################
 
