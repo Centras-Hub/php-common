@@ -46,11 +46,11 @@ stages:
 #   extends: .phpunit
 #   image: reg.cic.kz/centras/phpunit:php-7.4
 
-phpunit-php8.0:
+phpunit-php8-0:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-8.0
 
-phpunit-php8.1:
+phpunit-php8-1:
   extends: .phpunit
   image: reg.cic.kz/centras/phpunit:php-8.1
 
