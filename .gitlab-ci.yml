@@ -9,6 +9,7 @@ stages:
   tags:
     - docker
   script:
+    - composer install
     - phpunit .
 
 ##############################################################################
