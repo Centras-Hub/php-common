@@ -21,6 +21,13 @@ stages:
     reports:
       junit: report.xml
 
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - .yarn-cache/
+
 ##############################################################################
 
 # phpunit-php7.1:
