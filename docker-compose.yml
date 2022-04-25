@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  phpunit:
+    # image: registry.gitlab.com/pipeline-components/phpunit:latest
+
+    build:
+      context: .
+      dockerfile: testing.Dockerfile
+
+    working_dir: /code
+
+    tty: true
+
+    volumes:
+      - ".:/code"
+
+    command: sh
