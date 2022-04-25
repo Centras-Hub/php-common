@@ -22,11 +22,11 @@ stages:
       junit: report.xml
 
   cache:
-    - key:
-        files:
-          - composer.lock
-      paths:
-        - vendor/
+    key:
+      files:
+        - composer.lock
+    paths:
+      - vendor/
 
 ##############################################################################
 
