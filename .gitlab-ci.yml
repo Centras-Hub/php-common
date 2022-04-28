@@ -1,11 +1,11 @@
 stages:
-  - linting
+  - testing
   - deploy
 
 ##############################################################################
 
 .phpunit:
-  stage: linting
+  stage: testing
   tags:
     - docker
 
@@ -14,6 +14,7 @@ stages:
   
   script:
     - composer install
+    - composer require --dev phpunit/php-code-coverage
     - phpunit --coverage-text --colors=never  --log-junit report.xml  --coverage-cobertura=coverage.cobertura.xml .
 
   artifacts:
@@ -25,6 +26,7 @@ stages:
   cache:
     key:
       files:
+        - composer.json
         - composer.lock
     paths:
       - vendor/
