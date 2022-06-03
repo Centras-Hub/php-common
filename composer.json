@@ -1,0 +1,22 @@
+{
+    "name": "centras/php-common",
+    "description": "Common package for microservices",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "guzzlehttp/guzzle": "^7.3"
+    },
+    "config":{
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "phpcommon\\http\\": "src/http-shell/",
+            "phpcommon\\http\\Messages\\": "src/http-shell/messages",
+            "phpcommon\\Middleware\\": "src/Middleware/",
+            "phpcommon\\Handler\\": "src/Handler/",
+            "phpcommon\\Utils\\": "src/Utils/"
+        }
+    }
+}
