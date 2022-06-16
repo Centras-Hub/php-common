@@ -34,13 +34,15 @@ class RequestProvider
 
     public static function __callStatic($name, $arguments)
     {
-        $defaultValues = ['ignoreExceptions' => false, 'data' => []];
+        $arguments = $arguments[0];
+        $defaultValues = ['ignoreExceptions' => false, 'headers' => [], 'data' => []];
         foreach($defaultValues as $key => $value) {
-            if(!in_array($key, $arguments)) {
-                $arguments+=[$key => $value];
+            if(!array_key_exists($key, $arguments)) {
+                $arguments[$key] = $value;
             }
         }
-        $response = call_user_func([Http::class, $name], $arguments['url'], $arguments['data']);
+        $response = Http::withHeaders($arguments['headers'])
+            ->{$name}($arguments['url'], $arguments['data']);
         return self::validate($response, $arguments['ignoreExceptions']);
     }
 }
