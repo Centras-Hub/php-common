@@ -37,6 +37,7 @@ abstract class BaseService
     {
         if ($accessLevel < 0 || $accessLevel > max(array_keys($this->model::accessLevels['get'])))
             return $this->model::where($data)->first();
+        
         return $this->model::where($data)->first($this->model::accessLevels['get'][$accessLevel]);
     }
 

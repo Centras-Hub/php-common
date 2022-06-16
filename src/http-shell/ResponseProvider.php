@@ -3,6 +3,7 @@
 namespace phpcommon\http;
 
 use Exception;
+use phpcommon\Handler\Exceptions\MICROSERVICE_EXCEPTION;
 use phpcommon\http\ResponseMessagesDTO as DTO;
 use Symfony\Component\HttpFoundation\Cookie;
 
@@ -10,20 +11,17 @@ class ResponseProvider
 {
 
 
-    public static function render(DTO $body = null, Cookie $cookie = null, Exception $exception = null, string $type = "json")
+    public static function render(DTO $body = null, Cookie $cookie = null, Exception $exception = null, string $type = "json", array $previousTrace = null)
     {
         if ($exception) {
             $trace = self::renderTrace($exception);
-            $body->setTrace($trace);
+            $body->setTrace($previousTrace === null ? $trace : array_merge($trace, $previousTrace));
         }
-
         $data = $body->serialize();
-
         if ($cookie) {
             return response()->json($data, $body->getStatus())->cookie($cookie);;
         }
-
-        return response()->json($data, $body->getStatus());
+        return response()->json(data: $data, status: $body->getStatus());
     }
 
     private static function renderTrace(Exception $exception)
@@ -38,8 +36,10 @@ class ResponseProvider
         $limit_trace = $limit_trace >= count($exception_traces) ? count($exception_traces) : (int)$limit_trace;
 
         //render trace
+        
         $trace = [];
 
+       
         //$trace += $old_trace;
 
         //render exception trace

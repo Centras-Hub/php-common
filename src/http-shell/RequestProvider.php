@@ -8,18 +8,13 @@ use phpcommon\Handler\Exceptions\MICROSERVICE_EXCEPTION;
 
 class RequestProvider
 {
-    public static function post(string $url, array $data = [], $ignoreExceptions = false)
-    {
-        $response = Http::post($url, $data, $ignoreExceptions = false);
-        self::validate($response, $ignoreExceptions);
-        return $response;
-    }
+
 
     private static function validate($response, $ignoreExceptions)
     {
         if ($response->failed()) {
-            throw_unless($ignoreExceptions, new MICROSERVICE_EXCEPTION());
-
+            $previousTrace = $response->json()['data']['trace'];
+            $response = ResponseProvider::render(new ResponseMessagesDTO(new Messages\MICROSERVICE_EXCEPTION_Message), exception: new MICROSERVICE_EXCEPTION(), previousTrace: $previousTrace);
             // Строка ошибки
             Log::warning($response);
         }
@@ -27,33 +22,8 @@ class RequestProvider
         return $response;
     }
 
-    public static function get(string $url, array|string|null $query = null, $ignoreExceptions = false)
-    {
-        $response = Http::get($url, $query, $ignoreExceptions);
-        self::validate($response, $ignoreExceptions);
-        return $response;
-    }
 
-    public static function put(string $url, array $data = [], $ignoreExceptions = false)
-    {
-        $response = Http::put($url, $data, $ignoreExceptions);
-        self::validate($response, $ignoreExceptions);
-        return $response;
-    }
 
-    public static function patch(string $url, array $data = [], $ignoreExceptions = false)
-    {
-        $response = Http::patch($url, $data, $ignoreExceptions);
-        self::validate($response, $ignoreExceptions);
-        return $response;
-    }
-
-    public static function delete(string $url, array $data = [], $ignoreExceptions = false)
-    {
-        $response = Http::delete($url, $data, $ignoreExceptions);
-        self::validate($response, $ignoreExceptions);
-        return $response;
-    }
 
     public static function postFile($url, string|array $name, $data = [], string $contents = '', string|null $filename = null, array $headers = [], $ignoreExceptions = false)
     {
@@ -64,7 +34,15 @@ class RequestProvider
 
     public static function __callStatic($name, $arguments)
     {
-        $response = Http::send($name, $arguments['url'], $arguments['data']);
-        dd($response);
+        $arguments = $arguments[0];
+        $defaultValues = ['ignoreExceptions' => false, 'headers' => [], 'data' => []];
+        foreach($defaultValues as $key => $value) {
+            if(!array_key_exists($key, $arguments)) {
+                $arguments[$key] = $value;
+            }
+        }
+        $response = Http::withHeaders($arguments['headers'])
+            ->{$name}($arguments['url'], $arguments['data']);
+        return self::validate($response, $arguments['ignoreExceptions']);
     }
 }
