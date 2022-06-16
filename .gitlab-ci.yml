@@ -1,5 +1,63 @@
 stages:
+  - testing
   - deploy
+
+##############################################################################
+
+.phpunit:
+  stage: testing
+  tags:
+    - docker
+
+  variables:
+    XDEBUG_MODE: coverage
+  
+  script:
+    - composer install
+    - composer require --dev phpunit/php-code-coverage
+    - phpunit --coverage-text --colors=never  --log-junit report.xml  --coverage-cobertura=coverage.cobertura.xml .
+
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+      cobertura: coverage.cobertura.xml
+
+  cache:
+    key:
+      files:
+        - composer.json
+        - composer.lock
+    paths:
+      - vendor/
+
+##############################################################################
+
+# phpunit-php7.1:
+#   extends: .phpunit
+#   image: reg.cic.kz/centras/phpunit:php-7.1
+
+# phpunit-php7.2:
+#   extends: .phpunit
+#   image: reg.cic.kz/centras/phpunit:php-7.2
+# 
+# phpunit-php7.3:
+#   extends: .phpunit
+#   image: reg.cic.kz/centras/phpunit:php-7.3
+# 
+# phpunit-php7.4:
+#   extends: .phpunit
+#   image: reg.cic.kz/centras/phpunit:php-7.4
+
+phpunit-php8-0:
+  extends: .phpunit
+  image: reg.cic.kz/centras/phpunit:php-8.0
+
+phpunit-php8-1:
+  extends: .phpunit
+  image: reg.cic.kz/centras/phpunit:php-8.1
+
+##############################################################################
 
 deploy:
   only:
