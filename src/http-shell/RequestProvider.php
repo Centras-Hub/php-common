@@ -34,15 +34,58 @@ class RequestProvider
 
     public static function __callStatic($name, $arguments)
     {
-        $arguments = $arguments[0];
+        // $arguments = $arguments[0];
         $defaultValues = ['ignoreExceptions' => false, 'headers' => [], 'data' => []];
         foreach($defaultValues as $key => $value) {
             if(!array_key_exists($key, $arguments)) {
                 $arguments[$key] = $value;
             }
         }
+        //TODO
+        $url = 'http://log/api/logs';
+        $reqLog = self::setLog($url, $arguments[1]);
+        $reqUuid = $reqLog->data->uuid;
+
         $response = Http::withHeaders($arguments['headers'])
-            ->{$name}($arguments['url'], $arguments['data']);
+            ->{$name}($arguments[0], $arguments[1]);
+
+        $resLog = self::setLog($url, $response, $reqUuid, true);
+        //TODO
+        $arguments['ignoreExceptions'] = false;
         return self::validate($response, $arguments['ignoreExceptions']);
+    }
+
+    public static function setLog($url, $data, $reqUuid = false, $isResponse = false) {
+        $client = new Client();
+        //TODO
+        if(isset($reqUuid) && $isResponse === true) {
+            $url = 'http://log/api/logs/updateByUuid/' . $reqUuid;
+            $data = [
+                'json' => [
+                    'status_code' => $data->getStatusCode(),
+                    'response_header' => $data->headers(),
+                    'response_data' => $data->body(),
+                    'response_status_code' => $data->getStatusCode()
+                ]
+            ];
+        } else {
+            $url = 'http://log/api/logs';
+            $data = [
+                'json' => $data
+            ];
+        }
+
+        $promise = $client->postAsync($url, $data)->then(
+            function (ResponseInterface $res){
+                $log = json_decode($res->getBody()->getContents());
+                return $log;
+            },
+            function (RequestException $e) {
+                $log = [];
+                $log = $e->getMessage();
+                return $log;
+            }
+        );
+        return $log = $promise->wait();
     }
 }
