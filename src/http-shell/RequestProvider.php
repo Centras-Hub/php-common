@@ -2,9 +2,12 @@
 
 namespace phpcommon\http;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use phpcommon\Handler\Exceptions\MICROSERVICE_EXCEPTION;
+use Psr\Http\Message\ResponseInterface;
 
 class RequestProvider
 {
