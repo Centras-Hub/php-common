@@ -34,7 +34,6 @@ class RequestProvider
 
     public static function __callStatic($name, $arguments)
     {
-        // $arguments = $arguments[0];
         $defaultValues = ['ignoreExceptions' => false, 'headers' => [], 'data' => []];
         foreach($defaultValues as $key => $value) {
             if(!array_key_exists($key, $arguments)) {
