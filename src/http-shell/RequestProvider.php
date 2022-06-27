@@ -42,11 +42,11 @@ class RequestProvider
         }
         //TODO
         $url = 'http://log/api/logs';
-        $reqLog = self::setLog($url, $arguments[1]);
+        $reqLog = self::setLog($url, $arguments['data']);
         $reqUuid = $reqLog->data->uuid;
 
         $response = Http::withHeaders($arguments['headers'])
-            ->{$name}($arguments[0], $arguments[1]);
+            ->{$name}($arguments['url'], $arguments['data']);
 
         $resLog = self::setLog($url, $response, $reqUuid, true);
         //TODO
