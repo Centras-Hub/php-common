@@ -12,7 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 class RequestProvider
 {
 
-
     private static function validate($response, $ignoreExceptions)
     {
         if ($response->failed()) {
@@ -24,9 +23,6 @@ class RequestProvider
 
         return $response;
     }
-
-
-
 
     public static function postFile($url, string|array $name, $data = [], string $contents = '', string|null $filename = null, array $headers = [], $ignoreExceptions = false)
     {
@@ -45,7 +41,7 @@ class RequestProvider
         }
         //TODO
         $url = 'http://log/api/logs';
-        $reqLog = self::setLog($url, $arguments['data']);
+        $reqLog = self::setLog($url, $arguments);
         $reqUuid = $reqLog->data->uuid;
 
         $response = Http::withHeaders($arguments['headers'])
@@ -73,7 +69,11 @@ class RequestProvider
         } else {
             $url = 'http://log/api/logs';
             $data = [
-                'json' => $data
+                'json' => [
+                    'url' => $data['url'],
+                    'request_header' => $data['headers'],
+                    'request_data' => $data['data'],
+                ]
             ];
         }
 
