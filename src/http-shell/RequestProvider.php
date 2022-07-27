@@ -14,7 +14,7 @@ class RequestProvider
 
     private static function validate($response, $ignoreExceptions)
     {
-        if ($response->failed()) {
+        if ($response->failed() && !$ignoreExceptions) {
             $previousTrace = $response->json()['data']['trace'];
             $response = ResponseProvider::render(new ResponseMessagesDTO(new Messages\MICROSERVICE_EXCEPTION_Message), exception: new MICROSERVICE_EXCEPTION(), previousTrace: $previousTrace);
             // Строка ошибки
@@ -49,7 +49,6 @@ class RequestProvider
 
         $resLog = self::setLog($url, $response, $reqUuid, true);
         //TODO
-        $arguments['ignoreExceptions'] = false;
         return self::validate($response, $arguments['ignoreExceptions']);
     }
 
