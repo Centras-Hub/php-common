@@ -40,7 +40,7 @@ class RequestProvider
             }
         }
         //TODO
-        $url = 'http://log/api/logs';
+        $url = 'http://log-service/api/logs';
         $reqLog = self::setLog($url, $arguments);
         $reqUuid = $reqLog->data->uuid;
 
@@ -56,7 +56,7 @@ class RequestProvider
         $client = new Client();
         //TODO
         if(isset($reqUuid) && $isResponse === true) {
-            $url = 'http://log/api/logs/updateByUuid/' . $reqUuid;
+            $url = 'http://log-service/api/logs/updateByUuid/' . $reqUuid;
             $data = [
                 'json' => [
                     'status_code' => $data->getStatusCode(),
@@ -66,7 +66,7 @@ class RequestProvider
                 ]
             ];
         } else {
-            $url = 'http://log/api/logs';
+            $url = 'http://log-service/api/logs';
             $data = [
                 'json' => [
                     'url' => $data['url'],
